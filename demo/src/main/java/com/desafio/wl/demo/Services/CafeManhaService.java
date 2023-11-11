@@ -1,6 +1,7 @@
 package com.desafio.wl.demo.Services;
 
 import com.desafio.wl.demo.Model.CafeManha;
+import com.desafio.wl.demo.Model.Colaborador;
 import com.desafio.wl.demo.Repository.CafeManhaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -8,6 +9,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -28,7 +30,7 @@ public class CafeManhaService {
         }
 
 
-        Optional<CafeManha> cafeExistente = cafeManhaRepository
+        Optional<CafeManha> cafeExistente = CafeManhaRepository
                 .findByCpfAndDataAndOpcaoCafe(cafeManha.getCpf(), cafeManha.getData(), cafeManha.getOpcaoCafe());
 
         if (cafeExistente.isPresent()) {
@@ -45,7 +47,7 @@ public class CafeManhaService {
         }
     }
 
-    public ResponseEntity<String> atualizarCafeManha(CafeManha cafeManha) {
+    public ResponseEntity<String> atualizarCafeManha(Long id, CafeManha cafeManha) {
         Optional<CafeManha> cafeExistente = cafeManhaRepository.findById(cafeManha.getId());
 
         if (cafeExistente.isPresent()) {
@@ -84,4 +86,27 @@ public class CafeManhaService {
                     .body("Registro de café da manhã não encontrado para exclusão.");
         }
     }
+
+
+    public ResponseEntity<String> validarAtualizacaoCafeManha(Long id, CafeManha cafeManha) {
+            return null;
+    }
+
+    public List<CafeManha> obterTodosCafesAtualizados() {
+
+        return null;
+    }
+
+    public Optional<Colaborador> obterColaboradorPorId(Long id) {
+            return null;
+    }
+
+    public ResponseEntity<String> excluirTodosColaboradores() {
+                return null;
+    }
+
+    public ResponseEntity<String> excluirColaboradorPorId(Long id) {
+        return null;
+    }
 }
+

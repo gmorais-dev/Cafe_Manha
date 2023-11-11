@@ -17,6 +17,6 @@ public interface CafeManhaRepository extends JpaRepository<CafeManha, Long> {
 
     Optional<CafeManha> findByNomeColaboradorAndDataAndOpcaoCafe(String nomeColaborador, LocalDate data, String opcaoCafe);
 
-    Optional<CafeManha> findByCpfAndDataAndOpcaoCafe(String cpf, LocalDate data, String opcaoCafe);
+    static Optional<CafeManha> findByCpfAndDataAndOpcaoCafe(String cpf, LocalDate data, String opcaoCafe);
 }
 

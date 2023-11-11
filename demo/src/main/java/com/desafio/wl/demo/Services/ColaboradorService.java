@@ -3,6 +3,7 @@ package com.desafio.wl.demo.Services;
 import com.desafio.wl.demo.Model.CafeManha;
 import com.desafio.wl.demo.Model.Colaborador;
 import com.desafio.wl.demo.Repository.ColaboradorRepository;
+import com.desafio.wl.demo.Repository.CafeManhaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -14,12 +15,12 @@ import java.util.Optional;
 public class ColaboradorService {
 
     private final ColaboradorRepository colaboradorRepository;
-    private final CafeManhaService cafeManhaService;
+    private final CafeManhaRepository cafeManhaRepository; // Corrigido o nome do Repositório
 
     @Autowired
-    public ColaboradorService(ColaboradorRepository colaboradorRepository, CafeManhaService cafeManhaService) {
+    public ColaboradorService(ColaboradorRepository colaboradorRepository, CafeManhaRepository cafeManhaRepository) {
         this.colaboradorRepository = colaboradorRepository;
-        this.cafeManhaService = cafeManhaService;
+        this.cafeManhaRepository = cafeManhaRepository;
     }
 
     public ResponseEntity<String> adicionarColaboradorParaCafe(Long colaboradorId, CafeManha cafeManha) {
@@ -28,7 +29,7 @@ public class ColaboradorService {
         if (colaboradorExistente.isPresent()) {
             try {
                 cafeManha.setNomeColaborador(String.valueOf(colaboradorExistente.get()));
-                cafeManhaService.adicionarCafeManha(cafeManha);
+                cafeManhaRepository.save(cafeManha); // Corrigido o nome do Repositório
                 return ResponseEntity.status(HttpStatus.CREATED).body("Café da Manhã associado ao Colaborador com sucesso");
             } catch (Exception e) {
                 return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -54,7 +55,7 @@ public class ColaboradorService {
                 }
 
                 cafeManha.setNomeColaborador(colaboradorExistente.get().getNome());
-                cafeManhaService.adicionarCafeManha(cafeManha);
+                cafeManhaRepository.save(cafeManha); // Corrigido o nome do Repositório
                 return ResponseEntity.status(HttpStatus.CREATED).body("Café da Manhã associado ao Colaborador com sucesso");
 
             } catch (Exception e) {
@@ -63,6 +64,44 @@ public class ColaboradorService {
             }
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Colaborador não encontrado na nossa base de dados");
+        }
+    }
+
+    public ResponseEntity<String> validarAtualizacaoCafeManha(Long id, CafeManha cafeManha) {
+        Optional<CafeManha> cafeExistente = cafeManhaRepository.findById(id); // Corrigido o nome do Repositório
+
+        if (cafeExistente.isPresent()) {
+            Optional<CafeManha> mesmoItemNaData = CafeManhaRepository
+                    .findByCpfAndDataAndOpcaoCafe(cafeManha.getCpf(), cafeManha.getData(), cafeManha.getOpcaoCafe());
+
+            if (mesmoItemNaData.isPresent()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("Outro colaborador já cadastrou o mesmo item na mesma data.");
+            }
+        }
+
+        return ResponseEntity.ok("Validação passou com sucesso.");
+    }
+
+    public ResponseEntity<String> atualizarCafeManha(Long id, CafeManha cafeManha) {
+        Optional<CafeManha> cafeExistente = cafeManhaRepository.findById(id); // Corrigido o nome do Repositório
+
+        if (cafeExistente.isPresent()) {
+            try {
+                CafeManha cafeAtualizado = cafeExistente.get();
+                cafeAtualizado.setNomeColaborador(cafeManha.getNomeColaborador());
+                cafeAtualizado.setCpf(cafeManha.getCpf());
+                cafeAtualizado.setOpcaoCafe(cafeManha.getOpcaoCafe());
+                cafeAtualizado.setData(cafeManha.getData());
+
+                cafeManhaRepository.save(cafeAtualizado);
+                return ResponseEntity.status(HttpStatus.OK).body("Registro de café da manhã atualizado com sucesso.");
+            } catch (Exception e) {
+                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                        .body("Erro ao atualizar registro de café da manhã.");
+            }
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Registro de café da manhã não encontrado.");
         }
     }
 }
