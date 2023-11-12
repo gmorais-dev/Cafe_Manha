@@ -98,7 +98,8 @@ public class CafeManhaService {
     }
 
     public Optional<Colaborador> obterColaboradorPorId(Long id) {
-            return null;
+
+        return null;
     }
 
     public ResponseEntity<String> excluirTodosColaboradores() {
@@ -107,6 +108,14 @@ public class CafeManhaService {
 
     public ResponseEntity<String> excluirColaboradorPorId(Long id) {
         return null;
+    }
+
+    public Optional<CafeManha> obterCafePorId(Long id) {
+        return null;
+    }
+
+    public ResponseEntity<String> excluirCafePorId(Long id) {
+            return null;
     }
 }
 
