@@ -20,5 +20,7 @@ public interface CafeManhaRepository extends JpaRepository<CafeManha, Long> {
     public static Optional<CafeManha> findByCpfAndDataAndOpcaoCafe(String cpf, LocalDate data, String opcaoCafe) {
         return null;
     }
+
+    boolean existsByCpf(String cpf);
 }
 

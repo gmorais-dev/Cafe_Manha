@@ -10,5 +10,7 @@ import java.time.LocalDate;
 public interface ColaboradorRepository extends JpaRepository<Colaborador, Long> {
     @Query(nativeQuery = true, value = "SELECT * FROM cafe_manha WHERE cpf = ?1 AND data = ?2")
     CafeManha findByCpfAndData(String cpf, LocalDate data);
+
+    boolean existsByCpf(String cpf);
 }
 

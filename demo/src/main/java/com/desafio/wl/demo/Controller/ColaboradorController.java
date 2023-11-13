@@ -1,68 +1,54 @@
-import com.desafio.wl.demo.Model.CafeManha;
-import com.desafio.wl.demo.Services.CafeManhaService;
+package com.desafio.wl.demo.Controller;
+
+import com.desafio.wl.demo.Model.Colaborador;
+import com.desafio.wl.demo.Services.ColaboradorService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/cafe-da-manha")
-public class CafeManhaController {
+@RequestMapping("/api/colaboradores")
+public class ColaboradorController {
 
-    private final CafeManhaService cafeManhaService;
+    private final ColaboradorService colaboradorService;
 
     @Autowired
-    public CafeManhaController(CafeManhaService cafeManhaService) {
-        this.cafeManhaService = cafeManhaService;
+    public ColaboradorController(ColaboradorService colaboradorService) {
+        this.colaboradorService = colaboradorService;
     }
 
     @PostMapping("/adicionar")
-    public ResponseEntity<String> adicionarCafeDaManha(@RequestBody CafeManha cafeManha) {
-        ResponseEntity<String> response = cafeManhaService.adicionarCafeManha(cafeManha);
-        HttpStatus status = (HttpStatus) response.getStatusCode();
-        if (status.is2xxSuccessful()) {
-            return ResponseEntity.status(HttpStatus.CREATED).body("Café da Manhã adicionado com sucesso.");
-        } else {
-            return ResponseEntity.status(status).body(response.getBody());
-        }
+    public ResponseEntity<String> adicionarColaborador(@RequestBody Colaborador colaborador) {
+        return colaboradorService.adicionarColaborador(colaborador);
+    }
+
+    @GetMapping("/listar")
+    public ResponseEntity<List<Colaborador>> listarColaboradores() {
+        List<Colaborador> colaboradores = colaboradorService.listarColaboradores();
+        return ResponseEntity.ok(colaboradores);
+    }
+
+    @GetMapping("/buscar/{id}")
+    public ResponseEntity<Object> buscarColaboradorPorId(@PathVariable Long id) {
+        return colaboradorService.buscarColaboradorPorId(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     @PutMapping("/atualizar/{id}")
-    public ResponseEntity<?> atualizarCafeManha(@PathVariable Long id, @RequestBody CafeManha cafeManha) {
-        ResponseEntity<String> validacao = cafeManhaService.validarAtualizacaoCafeManha(id, cafeManha);
-        if (validacao.getStatusCode() != HttpStatus.OK) {
-            return validacao;
-        }
-
-        ResponseEntity<String> response = cafeManhaService.atualizarCafeManha(id, cafeManha);
-
-        if (response.getStatusCode() == HttpStatus.OK) {
-            List<CafeManha> updates = cafeManhaService.obterTodosCafesAtualizados();
-            return ResponseEntity.status(response.getStatusCode()).body(updates);
-        } else {
-            return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
-        }
-    }
-
-    @GetMapping("/obter-por-id/{id}")
-    public ResponseEntity<?> obterCafePorId(@PathVariable Long id) {
-        Optional<CafeManha> cafeManha = cafeManhaService.obterCafePorId(id);
-        return cafeManha.map(value -> ResponseEntity.ok().body(value))
-                .orElseGet(() -> ResponseEntity.status(HttpStatus.NOT_FOUND).body("Café da Manhã não encontrado."));
+    public ResponseEntity<String> atualizarColaborador(@PathVariable Long id, @RequestBody Colaborador novoColaborador) {
+        return colaboradorService.atualizarColaborador(id, novoColaborador);
     }
 
     @DeleteMapping("/excluir/{id}")
-    public ResponseEntity<String> excluirCafePorId(@PathVariable Long id) {
-        ResponseEntity<String> response = cafeManhaService.excluirCafePorId(id);
+    public ResponseEntity<String> excluirColaborador(@PathVariable Long id) {
+        return colaboradorService.excluirColaborador(id);
+    }
 
-        if (response.getStatusCode() == HttpStatus.OK) {
-            List<CafeManha> updates = cafeManhaService.obterTodosCafesAtualizados();
-            return ResponseEntity.status(response.getStatusCode()).body(updates.toString());
-        } else {
-            return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
-        }
+    @GetMapping("/validar-cpf/{cpf}")
+    public ResponseEntity<String> validarCPFExistente(@PathVariable String cpf) {
+        return colaboradorService.validarCPFExistente(cpf);
     }
 }
