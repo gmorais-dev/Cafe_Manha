@@ -17,18 +17,20 @@ public class CafeManhaController {
 
     private final CafeManhaService cafeManhaService;
 
-    @Autowired
+
     public CafeManhaController(CafeManhaService cafeManhaService) {
         this.cafeManhaService = cafeManhaService;
     }
 
     @PostMapping("/adicionar")
-    public ResponseEntity<String> adicionarCafeDaManha(@RequestBody CafeManha cafeManha) {
-        return cafeManhaService.adicionarCafeManha(cafeManha);
+    @ResponseStatus(HttpStatus.CREATED)
+    public void adicionarCafeDaManha(@RequestBody CafeManha cafeManha) {
+    cafeManhaService.adicionarCafe(cafeManha);
 
     }
 
     @PutMapping("/atualizar/{id}")
+
     public ResponseEntity<String> atualizarCafeManha(@PathVariable Long id, @RequestBody CafeManha cafeManha) {
         return cafeManhaService.atualizarCafeManha(id, cafeManha);
     }

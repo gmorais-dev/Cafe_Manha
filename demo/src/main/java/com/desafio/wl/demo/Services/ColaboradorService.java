@@ -25,7 +25,7 @@ public class ColaboradorService {
     }
 
     public ResponseEntity<String> adicionarColaborador(Colaborador colaborador) {
-        String cpf = colaborador.getCpf();
+        String cpf = Colaborador.getCpf();
         if (colaboradorRepository.existsByCpf(cpf)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("CPF já cadastrado.");
         }
@@ -41,7 +41,7 @@ public class ColaboradorService {
         if (colaboradorExistente.isPresent()) {
             colaborador = colaboradorExistente.get();
 
-            if (temCafeDaManhaRegistrado(colaborador)) {
+            if (temCafeDaManhaRegistrado(colaborador)){
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não é possível excluir. Café da manhã já registrado para este colaborador.");
             }
 
@@ -50,10 +50,13 @@ public class ColaboradorService {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Colaborador não encontrado.");
         }
-          ResponseEntity<String> temCafeDaManhaRegistra; {
-            String cpf = Colaborador.getCpf();
-            return cafeManhaRepository.existsByCpf(Colaborador.getCpf());
-        }
+
+
+    }
+
+    private boolean temCafeDaManhaRegistrado(Colaborador colaborador) {
+        String cpf = Colaborador.getCpf();
+        return cafeManhaRepository.existsByCpf(Colaborador.getCpf());
 
     }
 

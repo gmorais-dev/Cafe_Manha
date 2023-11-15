@@ -18,7 +18,8 @@ public interface CafeManhaRepository extends JpaRepository<CafeManha, Long> {
     @Query(value = "SELECT * FROM ITEMS i WHERE i.NAME = ?", nativeQuery = true)
     Optional<CafeManha> findOneByName(String name);
 
-    ResponseEntity<String> existsByCpf(String cpf);
+    boolean existsByCpf(String cpf);
+    static boolean existsopcaoCafe(String opcaoCafe);
 
 
 

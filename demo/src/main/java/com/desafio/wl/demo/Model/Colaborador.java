@@ -30,7 +30,7 @@ public class Colaborador {
     }
 
     public static String getCpf() {
-        return Cpf;
+        return getCpf();
     }
 
     public void setCpf(String cpf) {

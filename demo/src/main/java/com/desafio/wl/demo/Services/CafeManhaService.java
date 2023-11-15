@@ -22,11 +22,11 @@ public class CafeManhaService {
         this.cafeManhaRepository = cafeManhaRepository;
     }
 
-    public ResponseEntity<String> adicionarCafeManha(CafeManha cafeManha) {
-
-        if (cafeManha.getData().isBefore(LocalDate.now())) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Erro, a data precisa ser maior que a atual.");
+    @Autowired
+    public ResponseEntity<String> adicionarCafe (CafeManha cafeManha){
+       String opcaoCafe = cafeManha.getOpcaoCafe();
+        if (CafeManhaRepository.existsopcaoCafe(opcaoCafe)
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Café já cadastradado");
         }
 
 

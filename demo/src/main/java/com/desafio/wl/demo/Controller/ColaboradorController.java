@@ -1,8 +1,4 @@
 package com.desafio.wl.demo.Controller;
-
-
-package com.desafio.wl.demo.Controller;
-
 import com.desafio.wl.demo.Model.Colaborador;
 import com.desafio.wl.demo.Repository.ColaboradorRepository;
 import com.desafio.wl.demo.Services.ColaboradorService;
@@ -10,8 +6,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
 import java.util.List;
+import static org.springframework.http.HttpStatus.*;
 
 @RestController
 @RequestMapping("/api/colaboradores")
@@ -29,12 +25,12 @@ public class ColaboradorController {
     public void adicionarColaborador(@RequestBody Colaborador colaborador){
     colaboradorService.adicionarColaborador(colaborador);
 }
-    @GetMapping("/listar")
-    public ResponseEntity<List<Colaborador>> listarColaboradores() {
+      @GetMapping("/listar")
+      @ResponseStatus(FOUND)
+          public ResponseEntity<List<Colaborador>> listarColaboradores(){
         List<Colaborador> colaboradores = colaboradorService.listarColaboradores();
-        return ResponseEntity.ok(colaboradores);
-    }
-
+             return ResponseEntity.ok(colaboradores);
+}
 
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarColaborador(@PathVariable Long id, @RequestBody Colaborador atualizaColaborador) {
