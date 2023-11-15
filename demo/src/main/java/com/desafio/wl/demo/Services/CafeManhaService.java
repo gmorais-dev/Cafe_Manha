@@ -30,7 +30,7 @@ public class CafeManhaService {
         }
 
 
-        Optional<CafeManha> cafeExistente = CafeManhaRepository
+        Optional<CafeManha> cafeExistente = (Optional<CafeManha>) (Optional<CafeManha>) CafeManhaRepository
                 .findByCpfAndDataAndOpcaoCafe(cafeManha.getCpf(), cafeManha.getData(), cafeManha.getOpcaoCafe());
 
         if (cafeExistente.isPresent()) {

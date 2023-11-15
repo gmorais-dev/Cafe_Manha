@@ -1,26 +1,30 @@
 package com.desafio.wl.demo.Repository;
 
 import com.desafio.wl.demo.Model.CafeManha;
-import org.hibernate.validator.constraints.br.CPF;
-import org.springframework.data.annotation.Id;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
-import org.yaml.snakeyaml.events.Event;
+import org.springframework.http.ResponseEntity;
 
 import java.time.LocalDate;
 import java.util.Optional;
 
 public interface CafeManhaRepository extends JpaRepository<CafeManha, Long> {
-    @Query(nativeQuery = true, value = "SELECT * FROM cafe_manha WHERE cpf = ?1 AND data = ?2")
+    @Query(nativeQuery = true, value = "SELECT * FROM CAFE_MANHA WHERE cpf = ?1 AND data = ?2")
     CafeManha findByCpfAndData(String cpf, LocalDate data);
 
+    @Query(value = "SELECT * FROM ITEMS i WHERE i.ID = ?", nativeQuery = true)
+    Optional<CafeManha> findOneById(Long id);
 
-    Optional<CafeManha> findByNomeColaboradorAndDataAndOpcaoCafe(String nomeColaborador, LocalDate data, String opcaoCafe);
+    @Query(value = "SELECT * FROM ITEMS i WHERE i.NAME = ?", nativeQuery = true)
+    Optional<CafeManha> findOneByName(String name);
 
-    public static Optional<CafeManha> findByCpfAndDataAndOpcaoCafe(String cpf, LocalDate data, String opcaoCafe) {
-        return null;
-    }
+    ResponseEntity<String> existsByCpf(String cpf);
 
-    boolean existsByCpf(String cpf);
+
+
+
+
+
+
 }
 

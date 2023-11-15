@@ -14,6 +14,7 @@ import java.util.Optional;
 @Service
 public class ColaboradorService {
 
+    @Autowired
     private final ColaboradorRepository colaboradorRepository;
     private final CafeManhaRepository cafeManhaRepository;
 
@@ -36,9 +37,11 @@ public class ColaboradorService {
     public ResponseEntity<String> excluirColaborador(Long id) {
         Optional<Colaborador> colaboradorExistente = colaboradorRepository.findById(id);
 
+        Colaborador colaborador;
         if (colaboradorExistente.isPresent()) {
-            String cpf = colaboradorExistente.get().getCpf();
-            if (cafeManhaRepository.existsByCpf(cpf)) {
+            colaborador = colaboradorExistente.get();
+
+            if (temCafeDaManhaRegistrado(colaborador)) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não é possível excluir. Café da manhã já registrado para este colaborador.");
             }
 
@@ -47,22 +50,28 @@ public class ColaboradorService {
         } else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Colaborador não encontrado.");
         }
+          ResponseEntity<String> temCafeDaManhaRegistra; {
+            String cpf = Colaborador.getCpf();
+            return cafeManhaRepository.existsByCpf(Colaborador.getCpf());
+        }
+
     }
 
-    public ResponseEntity<String> atualizarColaborador(Long id, Colaborador novoColaborador) {
+    public String atualizarColaborador(Long id, Colaborador atualizaColaborador) {
         Optional<Colaborador> colaboradorExistente = colaboradorRepository.findById(id);
 
         if (colaboradorExistente.isPresent()) {
             Colaborador colaboradorAtualizado = colaboradorExistente.get();
-            colaboradorAtualizado.setNome(novoColaborador.getNome());
-            colaboradorAtualizado.setCpf(novoColaborador.getCpf());
+            colaboradorAtualizado.setNome(atualizaColaborador.getNome());
+            colaboradorAtualizado.setCpf(atualizaColaborador.getCpf());
 
             colaboradorRepository.save(colaboradorAtualizado);
-            return ResponseEntity.status(HttpStatus.OK).body("Colaborador atualizado com sucesso.");
+            return "Colaborador atualizado com sucesso.";
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Colaborador não encontrado.");
+            return "Colaborador não encontrado.";
         }
     }
+
 
     public ResponseEntity<String> validarCPFExistente(String cpf) {
         if (colaboradorRepository.existsByCpf(cpf)) {
@@ -72,11 +81,11 @@ public class ColaboradorService {
         }
     }
 
-    public Optional<Object> buscarColaboradorPorId(Long id) {
-            return null;
-    }
+
+
+
 
     public List<Colaborador> listarColaboradores() {
-        return null;
+        return colaboradorRepository.findAllColaboradores();
     }
 }

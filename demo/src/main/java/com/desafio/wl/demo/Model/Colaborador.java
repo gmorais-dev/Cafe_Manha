@@ -29,7 +29,7 @@ public class Colaborador {
         Nome = nome;
     }
 
-    public String getCpf() {
+    public static String getCpf() {
         return Cpf;
     }
 

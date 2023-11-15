@@ -25,6 +25,7 @@ public class CafeManhaController {
     @PostMapping("/adicionar")
     public ResponseEntity<String> adicionarCafeDaManha(@RequestBody CafeManha cafeManha) {
         return cafeManhaService.adicionarCafeManha(cafeManha);
+
     }
 
     @PutMapping("/atualizar/{id}")
@@ -38,3 +39,4 @@ public class CafeManhaController {
         return cafeManhaService.excluirCafeManha(cpf, localDate);
     }
 }
+

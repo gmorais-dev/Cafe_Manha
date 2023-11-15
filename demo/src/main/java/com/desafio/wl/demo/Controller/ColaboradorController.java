@@ -1,8 +1,13 @@
 package com.desafio.wl.demo.Controller;
 
+
+package com.desafio.wl.demo.Controller;
+
 import com.desafio.wl.demo.Model.Colaborador;
+import com.desafio.wl.demo.Repository.ColaboradorRepository;
 import com.desafio.wl.demo.Services.ColaboradorService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,34 +19,28 @@ public class ColaboradorController {
 
     private final ColaboradorService colaboradorService;
 
-    @Autowired
+
     public ColaboradorController(ColaboradorService colaboradorService) {
         this.colaboradorService = colaboradorService;
     }
 
     @PostMapping("/adicionar")
-    public ResponseEntity<String> adicionarColaborador(@RequestBody Colaborador colaborador) {
-        return colaboradorService.adicionarColaborador(colaborador);
-    }
-
+   @ResponseStatus(HttpStatus.CREATED)
+    public void adicionarColaborador(@RequestBody Colaborador colaborador){
+    colaboradorService.adicionarColaborador(colaborador);
+}
     @GetMapping("/listar")
     public ResponseEntity<List<Colaborador>> listarColaboradores() {
         List<Colaborador> colaboradores = colaboradorService.listarColaboradores();
         return ResponseEntity.ok(colaboradores);
     }
 
-    @GetMapping("/buscar/{id}")
-    public ResponseEntity<Object> buscarColaboradorPorId(@PathVariable Long id) {
-        return colaboradorService.buscarColaboradorPorId(id)
-                .map(ResponseEntity::ok)
-                .orElse(ResponseEntity.notFound().build());
-    }
 
     @PutMapping("/atualizar/{id}")
-    public ResponseEntity<String> atualizarColaborador(@PathVariable Long id, @RequestBody Colaborador novoColaborador) {
-        return colaboradorService.atualizarColaborador(id, novoColaborador);
-    }
-
+    public ResponseEntity<String> atualizarColaborador(@PathVariable Long id, @RequestBody Colaborador atualizaColaborador) {
+        String mensagem = colaboradorService.atualizarColaborador(id, atualizaColaborador);
+        return ResponseEntity.ok(mensagem);
+}
     @DeleteMapping("/excluir/{id}")
     public ResponseEntity<String> excluirColaborador(@PathVariable Long id) {
         return colaboradorService.excluirColaborador(id);
