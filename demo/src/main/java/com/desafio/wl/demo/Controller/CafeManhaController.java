@@ -1,6 +1,7 @@
 package com.desafio.wl.demo.Controller;
 
 import com.desafio.wl.demo.Model.CafeManha;
+import com.desafio.wl.demo.Repository.CafeManhaRepository;
 import com.desafio.wl.demo.Services.CafeManhaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -30,9 +31,8 @@ public class CafeManhaController {
     }
 
     @PutMapping("/atualizar/{id}")
-
-    public ResponseEntity<String> atualizarCafeManha(@PathVariable Long id, @RequestBody CafeManha cafeManha) {
-        return cafeManhaService.atualizarCafeManha(id, cafeManha);
+    public ResponseEntity<String> atualizarCafeManha(@PathVariable Long id, @RequestBody CafeManha atualizarCafeManha) {
+     return cafeManhaService.atualizarCafeManha(id, atualizarCafeManha);
     }
 
     @DeleteMapping("/excluir/{cpf}/{data}")

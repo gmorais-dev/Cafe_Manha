@@ -26,7 +26,7 @@ public class ColaboradorService {
 
     public ResponseEntity<String> adicionarColaborador(Colaborador colaborador) {
         String cpf = Colaborador.getCpf();
-        if (colaboradorRepository.existsByCpf(cpf)) {
+        if (colaboradorRepository.existsByCpf(cpf)){
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("CPF já cadastrado.");
         }
 
