@@ -46,9 +46,8 @@ public class CafeManhaService {
         } else {
 
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Café da manhã não encontrado.");
-        }
+}
     }
-
     public ResponseEntity<String> excluirCafeManha(String cpf, LocalDate data) {
         Optional<CafeManha> cafeExistente = Optional.ofNullable(cafeManhaRepository.findByCpfAndData(cpf, data));
 
