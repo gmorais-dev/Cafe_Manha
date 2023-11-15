@@ -23,21 +23,11 @@ public class CafeManhaService {
     }
 
     @Autowired
-    public ResponseEntity<String> adicionarCafe (CafeManha cafeManha){
-       String opcaoCafe = cafeManha.getOpcaoCafe();
-        if (CafeManhaRepository.existsopcaoCafe(opcaoCafe)
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Café já cadastradado");
+    public ResponseEntity<String> adicionarCafe(CafeManha cafeManha) {
+        String opcaoCafe = cafeManha.getOpcaoCafe();
+        if (cafeManhaRepository.existsopcaoCafe(opcaoCafe)) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Café já cadastrado");
         }
-
-
-        Optional<CafeManha> cafeExistente = (Optional<CafeManha>) (Optional<CafeManha>) CafeManhaRepository
-                .findByCpfAndDataAndOpcaoCafe(cafeManha.getCpf(), cafeManha.getData(), cafeManha.getOpcaoCafe());
-
-        if (cafeExistente.isPresent()) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                    .body("Já existe um registro para este CPF nesta data com a mesma opção de café.");
-        }
-
         try {
             cafeManhaRepository.save(cafeManha);
             return ResponseEntity.status(HttpStatus.CREATED).body("Registro de café da manhã adicionado com sucesso.");
@@ -47,29 +37,24 @@ public class CafeManhaService {
         }
     }
 
-    public ResponseEntity<String> atualizarCafeManha(Long id, CafeManha cafeManha) {
-        Optional<CafeManha> cafeExistente = cafeManhaRepository.findById(cafeManha.getId());
+    public ResponseEntity<String> atualizarCafeManha(Long id, CafeManha atualizarCafeManha) {
+        Optional<CafeManha> cafeExistente = cafeManhaRepository.findById(id);
 
         if (cafeExistente.isPresent()) {
-            try {
-                CafeManha cafeAtualizado = cafeExistente.get();
-                cafeAtualizado.setNomeColaborador(cafeManha.getNomeColaborador());
-                cafeAtualizado.setCpf(cafeManha.getCpf());
-                cafeAtualizado.setOpcaoCafe(cafeManha.getOpcaoCafe());
-                cafeAtualizado.setData(cafeManha.getData());
 
-                cafeManhaRepository.save(cafeAtualizado);
+            CafeManha cafeAtualizado = cafeExistente.get();
+            cafeAtualizado.setOpcaoCafe(atualizarCafeManha.getOpcaoCafe());
 
-                return ResponseEntity.status(HttpStatus.OK).body("Registro de café da manhã atualizado com sucesso.");
-            } catch (Exception e) {
-                return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                        .body("Erro ao atualizar registro de café da manhã.");
-            }
+
+            cafeManhaRepository.save(cafeAtualizado);
+
+
+            return ResponseEntity.status(HttpStatus.OK).body("Café da manhã atualizado com sucesso");
         } else {
-            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Registro de café da manhã não encontrado.");
-        }
-    }
 
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Café da manhã não encontrado.");
+}
+    }
     public ResponseEntity<String> excluirCafeManha(String cpf, LocalDate data) {
         Optional<CafeManha> cafeExistente = Optional.ofNullable(cafeManhaRepository.findByCpfAndData(cpf, data));
 
