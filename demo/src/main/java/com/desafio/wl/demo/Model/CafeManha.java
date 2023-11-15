@@ -1,10 +1,17 @@
 package com.desafio.wl.demo.Model;
 
 
-import java.time.LocalDate;
-import java.util.Date;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
 
+import java.time.LocalDate;
+
+@Entity
 public class CafeManha {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String nomeColaborador;
     private String cpf;
@@ -18,6 +25,7 @@ public class CafeManha {
         this.opcaoCafe = opcaoCafe;
         this.data = data;
     }
+
     public CafeManha() {
     }
 

@@ -1,8 +1,8 @@
 package com.desafio.wl.demo.Services;
 
 import com.desafio.wl.demo.Model.Colaborador;
-import com.desafio.wl.demo.Repository.ColaboradorRepository;
 import com.desafio.wl.demo.Repository.CafeManhaRepository;
+import com.desafio.wl.demo.Repository.ColaboradorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -25,8 +25,8 @@ public class ColaboradorService {
     }
 
     public ResponseEntity<String> adicionarColaborador(Colaborador colaborador) {
-        String cpf = Colaborador.getCpf();
-        if (colaboradorRepository.existsByCpf(cpf)){
+        String cpf = colaborador.getCpf();
+        if (colaboradorRepository.existsByCpf(cpf)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("CPF já cadastrado.");
         }
 
@@ -41,7 +41,7 @@ public class ColaboradorService {
         if (colaboradorExistente.isPresent()) {
             colaborador = colaboradorExistente.get();
 
-            if (temCafeDaManhaRegistrado(colaborador)){
+            if (temCafeDaManhaRegistrado(colaborador)) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Não é possível excluir. Café da manhã já registrado para este colaborador.");
             }
 
@@ -55,8 +55,8 @@ public class ColaboradorService {
     }
 
     private boolean temCafeDaManhaRegistrado(Colaborador colaborador) {
-        String cpf = Colaborador.getCpf();
-        return cafeManhaRepository.existsByCpf(Colaborador.getCpf());
+        String cpf = colaborador.getCpf();
+        return cafeManhaRepository.existsByCpf(colaborador.getCpf());
 
     }
 
@@ -83,10 +83,6 @@ public class ColaboradorService {
             return ResponseEntity.status(HttpStatus.OK).body("CPF disponível para cadastro.");
         }
     }
-
-
-
-
 
     public List<Colaborador> listarColaboradores() {
         return colaboradorRepository.findAllColaboradores();

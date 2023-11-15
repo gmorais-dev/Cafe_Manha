@@ -26,8 +26,7 @@ public class CafeManhaController {
     @PostMapping("/adicionar")
     @ResponseStatus(HttpStatus.CREATED)
     public void adicionarCafeDaManha(@RequestBody CafeManha cafeManha) {
-    cafeManhaService.adicionarCafe(cafeManha);
-
+        cafeManhaService.adicionarCafe(cafeManha);
     }
 
     @PutMapping("/atualizar/{id}")

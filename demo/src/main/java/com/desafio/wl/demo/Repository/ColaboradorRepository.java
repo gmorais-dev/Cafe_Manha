@@ -5,12 +5,14 @@ import com.desafio.wl.demo.Model.Colaborador;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+@Repository
 public interface ColaboradorRepository extends JpaRepository<Colaborador, Long> {
     @Query(nativeQuery = true, value = "SELECT * FROM /api/colaboradores WHERE cpf = ?1 AND data = ?2")
     CafeManha findByCpfAndData(String cpf, LocalDate data);
@@ -35,15 +37,7 @@ public interface ColaboradorRepository extends JpaRepository<Colaborador, Long> 
 
 
     Optional<Colaborador> findById(Long id);
+
     boolean existsByCpf(String cpf);
 
-
-
-
-
-
-
-
-
 }
-

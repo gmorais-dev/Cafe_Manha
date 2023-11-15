@@ -3,10 +3,12 @@ package com.desafio.wl.demo.Repository;
 import com.desafio.wl.demo.Model.CafeManha;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
 import java.util.Optional;
 
+@Repository
 public interface CafeManhaRepository extends JpaRepository<CafeManha, Long> {
     @Query(nativeQuery = true, value = "SELECT * FROM CAFE_MANHA WHERE cpf = ?1 AND data = ?2")
     CafeManha findByCpfAndData(String cpf, LocalDate data);
@@ -18,16 +20,6 @@ public interface CafeManhaRepository extends JpaRepository<CafeManha, Long> {
     Optional<CafeManha> findOneByName(String name);
 
     boolean existsByCpf(String cpf);
-     boolean existsopcaoCafe(String opcaoCafe);
-    boolean atualizarCafeManha(Long id);
-
-
-
-
-
-
-
-
 
 }
 
