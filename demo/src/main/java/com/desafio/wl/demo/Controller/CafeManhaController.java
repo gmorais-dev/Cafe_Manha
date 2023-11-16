@@ -35,17 +35,17 @@ public class CafeManhaController {
     }
 
     @CrossOrigin
-    @PutMapping("/atualizar/{id}")
-    public ResponseEntity<String> atualizarCafeManha(@PathVariable Long id, @RequestBody CafeManha atualizarCafeManha) {
-        return cafeManhaService.atualizarCafeManha(id, atualizarCafeManha);
+    @PutMapping("/atualizar")
+    public ResponseEntity<String> atualizarCafeManha(@RequestBody CafeManha atualizarCafeManha) {
+        return cafeManhaService.atualizarCafeManha( atualizarCafeManha);
     }
 
+
     @CrossOrigin
-    @DeleteMapping("/excluir/{cpf}/{data}")
-    public ResponseEntity<String> excluirCafeManha(@PathVariable String cpf, @PathVariable String data) {
-        LocalDate localDate = LocalDate.parse(data);
-        return cafeManhaService.excluirCafeManha(cpf, localDate);
-    }
+    @DeleteMapping("/excluir/{id}")
+    public ResponseEntity<String> excluirCafeManha(@PathVariable long id) {
+       return cafeManhaService.excluirCafeManha(id);
+   }
 
     @CrossOrigin
     @GetMapping("/listar")

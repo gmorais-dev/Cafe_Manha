@@ -57,7 +57,7 @@ public class ColaboradorService {
 
     private boolean temCafeDaManhaRegistrado(Colaborador colaborador) {
         String cpf = colaborador.getCpf();
-        return cafeManhaRepository.existsByCpf(colaborador.getCpf());
+        return cafeManhaRepository.existsById(colaborador.getId());
 
     }
 

@@ -31,27 +31,18 @@ public class CafeManhaService {
         }
     }
 
-    public ResponseEntity<String> atualizarCafeManha(Long id, CafeManha atualizarCafeManha) {
-        Optional<CafeManha> cafeExistente = cafeManhaRepository.findById(id);
-
+    public ResponseEntity<String> atualizarCafeManha(CafeManha atualizarCafeManha) {
+        Optional<CafeManha> cafeExistente = cafeManhaRepository.findById(atualizarCafeManha.getId());
         if (cafeExistente.isPresent()) {
-
-            CafeManha cafeAtualizado = cafeExistente.get();
-            cafeAtualizado.setOpcaoCafe(atualizarCafeManha.getOpcaoCafe());
-
-
-            cafeManhaRepository.save(cafeAtualizado);
-
-
+            cafeManhaRepository.save(atualizarCafeManha);
             return ResponseEntity.status(HttpStatus.OK).body("Café da manhã atualizado com sucesso");
-        } else {
-
+        }else {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Café da manhã não encontrado.");
         }
     }
 
-    public ResponseEntity<String> excluirCafeManha(String cpf, LocalDate data) {
-        Optional<CafeManha> cafeExistente = Optional.ofNullable(cafeManhaRepository.findByCpfAndData(cpf, data));
+    public ResponseEntity<String> excluirCafeManha(long id) {
+        Optional<CafeManha> cafeExistente = cafeManhaRepository.findById(id);
 
         if (cafeExistente.isPresent()) {
             try {
@@ -73,11 +64,17 @@ public class CafeManhaService {
         } else {
             return ResponseEntity.ok().body(listarCafeManha);
         }
+
+
+        }
+
     }
 
 
 
-}
+
+
+
 
 
 

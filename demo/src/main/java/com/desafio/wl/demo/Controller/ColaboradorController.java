@@ -21,22 +21,23 @@ public class ColaboradorController {
     }
     @CrossOrigin
     @PostMapping("/adicionar")
-   @ResponseStatus(HttpStatus.CREATED)
+    @ResponseStatus(HttpStatus.CREATED)
     public void adicionarColaborador(@RequestBody Colaborador colaborador){
-    colaboradorService.adicionarColaborador(colaborador);
-}     @CrossOrigin
-      @GetMapping("/listar")
-      @ResponseStatus(FOUND)
-          public ResponseEntity<List<Colaborador>> listarColaboradores(){
+        colaboradorService.adicionarColaborador(colaborador);
+    }     @CrossOrigin
+    @GetMapping("/listar")
+    @ResponseStatus(FOUND)
+    public ResponseEntity<List<Colaborador>> listarColaboradores(){
         List<Colaborador> colaboradores = colaboradorService.listarColaboradores();
-             return ResponseEntity.ok(colaboradores);
-}
+        return ResponseEntity.ok(colaboradores);
+    }
     @CrossOrigin
     @PutMapping("/atualizar/{id}")
     public ResponseEntity<String> atualizarColaborador(@PathVariable Long id, @RequestBody Colaborador atualizaColaborador) {
         String mensagem = colaboradorService.atualizarColaborador(id, atualizaColaborador);
         return ResponseEntity.ok(mensagem);
-}   @CrossOrigin
+    }
+       @CrossOrigin
     @DeleteMapping("/excluir/{id}")
     public ResponseEntity<String> excluirColaborador(@PathVariable Long id) {
         return colaboradorService.excluirColaborador(id);
