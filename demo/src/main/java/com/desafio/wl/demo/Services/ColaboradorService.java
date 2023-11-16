@@ -1,5 +1,6 @@
 package com.desafio.wl.demo.Services;
 
+import com.desafio.wl.demo.Model.CafeManha;
 import com.desafio.wl.demo.Model.Colaborador;
 import com.desafio.wl.demo.Repository.CafeManhaRepository;
 import com.desafio.wl.demo.Repository.ColaboradorRepository;
@@ -26,7 +27,7 @@ public class ColaboradorService {
 
     public ResponseEntity<String> adicionarColaborador(Colaborador colaborador) {
         String cpf = colaborador.getCpf();
-        if (colaboradorRepository.existsByCpf(cpf)){
+        if (colaboradorRepository.existsByCpf(cpf)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("CPF já cadastrado.");
         }
 
@@ -75,7 +76,6 @@ public class ColaboradorService {
         }
     }
 
-
     public ResponseEntity<String> validarCPFExistente(String cpf) {
         if (colaboradorRepository.existsByCpf(cpf)) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("CPF já cadastrado.");
@@ -85,6 +85,11 @@ public class ColaboradorService {
     }
 
     public List<Colaborador> listarColaboradores() {
-        return colaboradorRepository.findAllColaboradores();
+        List<Colaborador> listarColaboradores = colaboradorRepository.findAll();
+        if (listarColaboradores.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(listarColaboradores).getBody();
+        } else {
+            return ResponseEntity.ok().body(listarColaboradores).getBody();
+        }
     }
 }

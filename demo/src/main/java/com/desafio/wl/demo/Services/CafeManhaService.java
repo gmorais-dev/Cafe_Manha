@@ -2,12 +2,13 @@ package com.desafio.wl.demo.Services;
 
 import com.desafio.wl.demo.Model.CafeManha;
 import com.desafio.wl.demo.Repository.CafeManhaRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpOutputMessage;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -46,8 +47,9 @@ public class CafeManhaService {
         } else {
 
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Café da manhã não encontrado.");
-}
+        }
     }
+
     public ResponseEntity<String> excluirCafeManha(String cpf, LocalDate data) {
         Optional<CafeManha> cafeExistente = Optional.ofNullable(cafeManhaRepository.findByCpfAndData(cpf, data));
 
@@ -64,7 +66,25 @@ public class CafeManhaService {
                     .body("Registro de café da manhã não encontrado para exclusão.");
         }
     }
+    public ResponseEntity<List<CafeManha>> listarCafeManha() {
+        List<CafeManha> listarCafeManha = cafeManhaRepository.findAll();
+        if (listarCafeManha.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body(listarCafeManha);
+        } else {
+            return ResponseEntity.ok().body(listarCafeManha);
+        }
+    }
+
 
 
 }
+
+
+
+
+
+
+
+
+
 
