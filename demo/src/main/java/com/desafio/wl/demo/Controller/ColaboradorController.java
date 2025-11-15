@@ -24,7 +24,8 @@ public class ColaboradorController {
     @ResponseStatus(HttpStatus.CREATED)
     public void adicionarColaborador(@RequestBody Colaborador colaborador){
         colaboradorService.adicionarColaborador(colaborador);
-    }     @CrossOrigin
+    }
+    @CrossOrigin
     @GetMapping("/listar")
     @ResponseStatus(FOUND)
     public ResponseEntity<List<Colaborador>> listarColaboradores(){
