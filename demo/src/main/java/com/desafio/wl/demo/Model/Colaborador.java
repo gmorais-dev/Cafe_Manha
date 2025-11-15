@@ -19,7 +19,7 @@ public class Colaborador {
     private UUID id;
     private String nome;
     private String cpf;
-
+    private String email;
 
 
 }
