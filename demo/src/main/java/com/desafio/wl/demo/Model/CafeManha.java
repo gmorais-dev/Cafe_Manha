@@ -2,18 +2,16 @@ package com.desafio.wl.demo.Model;
 
 
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 
 import java.time.LocalDate;
 import java.util.UUID;
 
-@Data
-@AllArgsConstructor
+@Getter
+@Setter
 @NoArgsConstructor
+@AllArgsConstructor
 @Entity
 @Table(name = "cafe_manha")
 

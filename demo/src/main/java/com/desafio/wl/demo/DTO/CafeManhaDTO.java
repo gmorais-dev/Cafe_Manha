@@ -9,7 +9,6 @@ import java.time.LocalDate;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-
 public class CafeManhaDTO {
     private String nome;
     private String nomeColaborador;
