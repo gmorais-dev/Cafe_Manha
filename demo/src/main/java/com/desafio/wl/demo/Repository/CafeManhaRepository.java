@@ -1,5 +1,6 @@
 package com.desafio.wl.demo.Repository;
 
+import com.desafio.wl.demo.DTO.CafeManhaDTO;
 import com.desafio.wl.demo.Model.CafeManha;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
@@ -16,7 +17,7 @@ public interface CafeManhaRepository extends JpaRepository<CafeManha, Long> {
     CafeManha findByCpfAndData(String cpf, LocalDate data);
 
     @Query(value = "SELECT * FROM ITEMS i WHERE i.ID = ?", nativeQuery = true)
-    Optional<CafeManha> findOneById(Long id);
+    Optional<CafeManhaDTO> findOneById(Long id);
 
     @Query(value = "SELECT * FROM ITEMS i WHERE i.NAME = ?", nativeQuery = true)
     Optional<CafeManha> findOneByName(String name);

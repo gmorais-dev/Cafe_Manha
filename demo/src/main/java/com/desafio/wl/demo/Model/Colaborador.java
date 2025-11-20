@@ -17,7 +17,9 @@ public class Colaborador {
     @Id
     private UUID id;
     private String nome;
+    @Column(name = "cpf", unique = true, nullable = false)
     private String cpf;
+    @Column(name = "email", unique = true, nullable = false)
     private String email;
 
 
